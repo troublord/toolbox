@@ -13,7 +13,7 @@
 不追求產品化，每個工具的完成標準是「自己能重複使用」，不是「給別人用」。
 
 **本機路徑**：`D:\workspace\toolbox\`
-**GitHub**：（尚未建立）
+**GitHub**：https://github.com/troublord/toolbox
 
 **依賴管理**：根目錄 `requirements.txt` 是所有工具共用的基本依賴（requests、python-dotenv）。個別工具若有額外依賴，在該工具資料夾內另建 `requirements.txt` 補充。
 
