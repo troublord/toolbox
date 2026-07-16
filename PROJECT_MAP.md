@@ -42,10 +42,19 @@
 
 ---
 
-### youtube-summarizer/ — YouTube 影片轉重點（規劃中，尚未動工）
+### youtube-summarizer/ — YouTube 影片轉重點
 
-**狀態**：規劃中。
+**狀態**：完成，可用。
 
-**用途**：Research 時常遇到 YouTube 影片沒有逐字稿，想用 Gemini API 直接餵 YouTube 網址（`fileData: { fileUri }`），讓 AI 讀影片內容產出重點/逐字稿，取代人工聽打。
+**用途**：Research 時常遇到 YouTube 影片沒有逐字稿，用 Gemini API 直接餵 YouTube 網址（`types.Part(file_data=types.FileData(file_uri=...))`），讓 AI 讀影片內容產出重點摘要，取代人工聽打。
+
+**核心檔案**：
+- `summarize.py` — 對外主要介面：`summarize_video(youtube_url, prompt=DEFAULT_PROMPT)` 回傳摘要文字；也可直接當 CLI 用
+
+**執行方式**：`toolbox/.venv/Scripts/python.exe youtube-summarizer/summarize.py <youtube_url> [自訂 prompt]`（需先在 `youtube-summarizer/.env` 填入 `GEMINI_API_KEY`，參考 `.env.example`）
+
+**模型**：用 `gemini-flash-latest` 這個 alias（而非釘死版本號），因為 Gemini 舊版模型會不定期對新用戶下架（例如 `gemini-2.5-flash` 在 2026-07 測試時已回傳 404），alias 會自動指向當前可用的最新 flash 版本。
+
+**已驗證**：2026-07-16 用真實影片測試成功，輸出品質可用。
 
 詳細待辦見 Treasury-Vault `00-Capture/待辦｜YouTube 影片轉重點小工具.md`。
