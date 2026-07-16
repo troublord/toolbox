@@ -1,4 +1,5 @@
 """YouTube 影片轉重點：餵 YouTube 網址給 Gemini API，回傳重點/逐字稿。"""
+import re
 import sys
 from pathlib import Path
 
@@ -10,6 +11,12 @@ _config = dotenv_values(Path(__file__).parent / ".env")
 
 MODEL = "gemini-flash-latest"
 DEFAULT_PROMPT = "請整理這部影片的重點摘要，用條列式呈現，保留關鍵數字、名詞與結論。"
+OUTPUT_DIR = Path(__file__).parent / "output"
+
+
+def extract_video_id(youtube_url: str) -> str:
+    match = re.search(r"(?:v=|youtu\.be/)([\w-]+)", youtube_url)
+    return match.group(1) if match else "output"
 
 
 def summarize_video(youtube_url: str, prompt: str = DEFAULT_PROMPT) -> str:
@@ -40,4 +47,10 @@ if __name__ == "__main__":
 
     url = sys.argv[1]
     custom_prompt = sys.argv[2] if len(sys.argv) > 2 else DEFAULT_PROMPT
-    print(summarize_video(url, custom_prompt))
+    summary = summarize_video(url, custom_prompt)
+    print(summary)
+
+    OUTPUT_DIR.mkdir(exist_ok=True)
+    out_path = OUTPUT_DIR / f"{extract_video_id(url)}.txt"
+    out_path.write_text(summary, encoding="utf-8")
+    print(f"\n已存到 {out_path}")
