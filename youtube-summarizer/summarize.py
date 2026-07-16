@@ -47,6 +47,8 @@ if __name__ == "__main__":
 
     url = sys.argv[1]
     custom_prompt = sys.argv[2] if len(sys.argv) > 2 else DEFAULT_PROMPT
+
+    print("處理中，請稍候（依影片長度可能需要 10 秒到數分鐘）...", flush=True)
     summary = summarize_video(url, custom_prompt)
     print(summary)
 
