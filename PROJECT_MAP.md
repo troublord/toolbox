@@ -52,10 +52,9 @@
 - `summarize.py` — 對外主要介面：`summarize_video(youtube_url, prompt=DEFAULT_PROMPT)` 回傳摘要文字；也可直接當 CLI 用，會自動把結果存成 `output/{video_id}.txt`（`output/` 已加進 `.gitignore`，不進 git）
 - `run.bat` — 雙擊執行入口：跳出視窗問 `Paste YouTube URL:`，貼上網址按 Enter 即可，不用開終端機打指令
 
-**執行方式**：
-- 日常用法：雙擊 `youtube-summarizer\run.bat`，貼網址、Enter
-- 需要自訂 prompt 或程式化呼叫時：`toolbox/.venv/Scripts/python.exe youtube-summarizer/summarize.py <youtube_url> [自訂 prompt]`
-- 兩種方式都需先在 `youtube-summarizer/.env` 填入 `GEMINI_API_KEY`（參考 `.env.example`）
+**完整安裝/使用說明（含 macOS/Linux）**：見 `youtube-summarizer/README.md`
+
+**執行方式（Windows 快速版）**：雙擊 `youtube-summarizer\run.bat`，貼網址、Enter（需先在 `youtube-summarizer/.env` 填入 `GEMINI_API_KEY`，參考 `.env.example`）
 
 **模型**：用 `gemini-flash-latest` 這個 alias（而非釘死版本號），因為 Gemini 舊版模型會不定期對新用戶下架（例如 `gemini-2.5-flash` 在 2026-07 測試時已回傳 404），alias 會自動指向當前可用的最新 flash 版本。
 
