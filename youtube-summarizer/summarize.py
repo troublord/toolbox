@@ -15,7 +15,7 @@ OUTPUT_DIR = Path(__file__).parent / "output"
 
 
 def extract_video_id(youtube_url: str) -> str:
-    match = re.search(r"(?:v=|youtu\.be/)([\w-]+)", youtube_url)
+    match = re.search(r"(?:v=|youtu\.be/|shorts/)([\w-]+)", youtube_url)
     return match.group(1) if match else "output"
 
 
