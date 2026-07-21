@@ -1,6 +1,8 @@
 # youtube-summarizer
 
-把公開 YouTube 影片的網址丟給 Gemini API，直接產出重點摘要（不用逐字稿、不用下載影片）。
+把公開 YouTube 影片的網址丟給 Gemini API，直接產出重點摘要或逐字稿（不用下載影片）。
+
+逐字稿模式仍是 Gemini 生成式理解影片內容，不是專用語音辨識（ASR），可能出現意譯、跳句或不夠逐字精準，影片太長時也可能被截斷。
 
 ## 需求
 
@@ -34,11 +36,11 @@ GEMINI_API_KEY=你的key
 
 ### Windows
 
-雙擊 `youtube-summarizer\run.bat` → 跳出視窗問 `Paste YouTube URL:` → 貼上網址按 Enter。
+雙擊 `youtube-summarizer\run.bat` → 選擇模式（1=摘要 / 2=逐字稿，預設1）→ 貼上網址按 Enter。
 
 或用指令：
 ```
-.venv\Scripts\python.exe youtube-summarizer\summarize.py <youtube網址> [自訂prompt]
+.venv\Scripts\python.exe youtube-summarizer\summarize.py <youtube網址> [summary|transcript] [自訂prompt]
 ```
 
 ### macOS / Linux
@@ -50,22 +52,26 @@ chmod +x youtube-summarizer/run.sh   # 第一次執行前需給執行權限
 youtube-summarizer/run.sh
 ```
 
-會問 `Paste YouTube URL:`，貼上網址按 Enter。
+會依序問模式（1=摘要 / 2=逐字稿）和 `Paste YouTube URL:`。
 
 或用指令：
 ```
-.venv/bin/python youtube-summarizer/summarize.py <youtube網址> [自訂prompt]
+.venv/bin/python youtube-summarizer/summarize.py <youtube網址> [summary|transcript] [自訂prompt]
 ```
 
 ### 輸出
 
-終端機會印出摘要，同時自動存成 `youtube-summarizer/output/{影片ID}.txt`（這個資料夾不進 git，每次執行都會覆寫同一支影片的舊檔）。
+終端機會印出結果，同時自動存成：
+- 摘要模式 → `youtube-summarizer/output/{影片標題} [{影片ID}].txt`
+- 逐字稿模式 → `youtube-summarizer/output/{影片標題} [{影片ID}]_transcript.txt`
 
-### 自訂摘要方式
+影片標題透過 YouTube oEmbed（免金鑰）取得，若取得失敗則退回用影片 ID 當檔名；檔名中不合法字元會被替換成 `_`。兩種模式各自獨立存檔，不會互相覆寫；同模式重複執行同一支影片會覆寫舊檔。`output/` 資料夾不進 git。
 
-第二個參數可以換成任何你想要的指令，例如：
+### 自訂 prompt
+
+第三個參數可以覆寫該模式的預設 prompt，例如：
 ```
-summarize.py <網址> "請整理成逐字稿"
-summarize.py <網址> "用英文列出這部影片的三個重點"
+summarize.py <網址> summary "用英文列出這部影片的三個重點"
+summarize.py <網址> transcript "請提供逐字稿並標註大約的時間點"
 ```
-不給的話預設是條列式重點摘要。
+不給的話依模式使用預設 prompt（摘要／逐字稿）。
