@@ -49,7 +49,7 @@
 **用途**：Research 時常遇到 YouTube 影片沒有逐字稿，用 Gemini API 直接餵 YouTube 網址（`types.Part(file_data=types.FileData(file_uri=...))`），讓 AI 讀影片內容產出重點摘要或逐字稿，取代人工聽打。逐字稿模式仍是生成式理解，不是專用 ASR，可能有意譯或漏字。
 
 **核心檔案**：
-- `summarize.py` — 對外主要介面：`summarize_video(youtube_url, prompt=DEFAULT_PROMPT)` 回傳文字；CLI 用法 `summarize.py <url> [summary|transcript] [自訂prompt]`，結果自動存成 `output/{影片標題} [{video_id}].txt`（摘要）或加 `_transcript` 後綴（逐字稿），標題透過 YouTube oEmbed 取得、失敗則退回 video_id 當檔名，兩種模式分開存檔不互相覆寫（`output/` 已加進 `.gitignore`，不進 git）
+- `summarize.py` — 對外主要介面：`summarize_video(youtube_url, prompt=DEFAULT_PROMPT)` 回傳文字；CLI 用法 `summarize.py <url> [summary|transcript] [自訂prompt]`，輸出與存檔開頭附上原始 YouTube 網址方便對照，結果自動存成 `output/{影片標題} [{video_id}].txt`（摘要）或加 `_transcript` 後綴（逐字稿），標題透過 YouTube oEmbed 取得、失敗則退回 video_id 當檔名，兩種模式分開存檔不互相覆寫（`output/` 已加進 `.gitignore`，不進 git）
 - `run.bat` / `run.sh` — 執行入口：先選模式（1=摘要／2=逐字稿，預設1），再貼網址、Enter，不用開終端機打指令
 
 **完整安裝/使用說明（含 macOS/Linux）**：見 `youtube-summarizer/README.md`
@@ -60,4 +60,4 @@
 
 **已驗證**：2026-07-16 摘要模式用真實影片測試成功，輸出品質可用；逐字稿模式（2026-07-21 新增）尚未實測。
 
-詳細待辦見 Treasury-Vault `00-Capture/待辦｜YouTube 影片轉重點小工具.md`。
+完整過程見 Treasury-Vault `05-Log/工作紀錄/2026-07-16 YouTube 影片轉重點小工具.md`。

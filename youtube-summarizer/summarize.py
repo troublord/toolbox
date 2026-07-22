@@ -85,11 +85,12 @@ if __name__ == "__main__":
 
     print("處理中，請稍候（依影片長度可能需要 10 秒到數分鐘）...", flush=True)
     summary = summarize_video(url, prompt)
-    print(summary)
+    result = f"YouTube 網址：{url}\n\n{summary}"
+    print(result)
 
     OUTPUT_DIR.mkdir(exist_ok=True)
     video_id = extract_video_id(url)
     safe_title = sanitize_filename(get_video_title(url))
     out_path = OUTPUT_DIR / f"{safe_title} [{video_id}]{suffix}.txt"
-    out_path.write_text(summary, encoding="utf-8")
+    out_path.write_text(result, encoding="utf-8")
     print(f"\n已存到 {out_path}")
